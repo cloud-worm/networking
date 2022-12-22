@@ -1,0 +1,138 @@
+/*Variables*/
+@font-face {
+	font-family: "PT Sans";
+	src: url(fonts/PTSans-regular.ttf);
+}
+
+/*general: recurring, wide classes*/
+
+::-moz-selection {
+  color: white;
+  background: black;
+}
+
+::selection {
+  color: white;
+  background: black;
+}
+body {
+  margin: 0;
+  color: hsl(0, 0%, 10%);
+  line-height: 1.5;
+  font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+  background: white;
+  -moz-user-select: none;
+  /*user-select: none;*/
+  margin-bottom: 2rem;
+}
+h1, h2, h3 {
+  user-select: none;
+  -moz-user-select: none;
+  margin: 0;
+  line-height: 1.25;
+}
+hr {
+	border-top: 1px solid #AAA;
+	border-bottom: 0px solid white;
+}
+.tlink{
+	color: blue;
+
+	text-decoration: none;
+	padding: 1px 2px;
+	border-radius: 5px;
+}
+.tlink:hover{
+	background-color: #EFEFFF
+	
+}
+br {
+  user-select: none;
+  -moz-user-select: none;
+}
+footer{
+	text-align: center;
+}
+.foot{
+	font-variant: small-caps;
+	font-size: 1.3rem;
+	color: #A0A0A0;
+	text-decoration: none;
+	text-align: center;
+}
+.foot:hover{
+	color: #121212;
+}
+
+
+
+/*specific: IDs, classes, non-recurring*/
+.content-width {
+  max-width: 70ch;
+  width: calc(100% - 4rem);
+  margin: 0 auto;
+}
+
+header {
+  margin-top:30px;
+  padding: 1rem 0 0;
+
+  /*border-bottom: 4px solid hsl(300, 50%, 50%);*/
+}
+#MT,#SMT,h1,h2,h3 {
+  background: rgb(193,0,195);
+  background: linear-gradient(29deg, rgba(193,0,195,1) 0%, rgba(9,121,44,1) 50%, rgba(0,212,255,1) 100%);
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+h2, h3 {
+  background-size: 50%;
+}
+#MT{
+	font-weight: normal;
+	font-size: 3.5rem;
+	white-space: pre-line;
+}
+#SMT{
+	font-weight: bold;
+	font-size: 1.5rem;
+	white-space: pre-line;
+	user-select: none;
+	-moz-user-select: none;
+}
+.TL{
+	background-size: 75%;
+}
+#navbar {
+  overflow: hidden;
+  background-color: #FFF;
+  border-bottom: 1px solid #CCC;
+  border-top: 1px solid white;
+  padding: 14px 16px;
+  display: block;
+  text-align: center;
+  top: 0px;
+  position: sticky;
+  margin-bottom: 1rem;
+  box-shadow: 0px -1px white;
+}
+
+/*
+.sticky { *for js*
+  position: fixed;
+  top: 0;
+  width: 100%;
+}*/
+.ni{
+  font-variant: small-caps;
+  font-size: 1.5rem;
+  color: black;
+  text-decoration: none;
+  padding: 0px 10px;
+}
+.ni.active{
+	font-weight: bold;
+}
