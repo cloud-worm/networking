@@ -1,0 +1,71 @@
+/*Variables*/
+@font-face {
+	font-family: "PT Sans";
+	src: url(fonts/PTSans-regular.ttf);
+}
+
+/*general: recurring, wide classes*/
+
+
+body {
+  margin: 0;
+  color: hsl(0, 0%, 10%);
+  line-height: 1.5;
+  font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+  background: white;
+  -moz-user-select: none;
+  user-select: none;
+}
+main {
+  margin-bottom: 4rem;
+}
+h1, h2, h3 {
+  margin: 0;
+  line-height: 1.25;
+}
+
+hr {
+	border-top: 1px solid #AAA;
+	border-bottom: 0px solid white;
+}
+
+
+
+/*specific: IDs, classes, non-recurring*/
+.content-width {
+  max-width: 70ch;
+  width: calc(100% - 4rem);
+  margin: 0 auto;
+}
+
+header {
+  margin-top:30px;
+  margin-bottom: 1rem;
+  padding: 2rem 0;s
+
+  /*border-bottom: 4px solid hsl(300, 50%, 50%);*/
+}
+#MT,#SMT,h1,h2,h3 {
+  background: rgb(193,0,195);
+  background: linear-gradient(29deg, rgba(193,0,195,1) 0%, rgba(9,121,44,1) 50%, rgba(0,212,255,1) 100%);
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+h2, h3 {
+  background-size: 50%;
+}
+#MT{
+	font-weight: normal;
+	font-size: 4rem;
+}
+#SMT{
+	font-weight: bold;
+	font-size: 1.5rem;
+	white-space: pre-line;
+}
+.TL{
+	background-size: 75%;
+
