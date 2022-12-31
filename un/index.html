@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Networking - Chapitre Un</title>
+    <link href="index.css" rel="stylesheet" />
+
+
+  </head>
+  <body>
+      <header>
+        <div class="content-width">
+          <h1 id="OMT">Le Networking dans les Jeux Vidéo</h1>
+          <h1 id="MT">Chapitre Un</h1>
+          <p id="SMT">Technologies fondamentales,
+		  Protocoles...</p>
+        </div>
+      </header>
+	  	<div id="navbar">
+			<a class="ni" href="../index.html">accueil</a>
+			<a class="ni active" href="index.html">chapitre un</a>
+			<a class="ni" href="javascript:void(0)">chapitre deux</a>
+			<a class="ni" href="javascript:void(0)">chapitre trois</a>
+			<a class="ni" href="javascript:void(0)">exemples</a>
+		</div><br/>
+
+
+      <div class="content-width">
+        <p></p>
+		
+		<p>Dans ce premier chapitre, nous traiterons des bases de la transmission de l'information entre différents terminaux grâce
+		à internet. Nous parlerons des deux technologies, le <em>peer to peer</em> et le <em>client-serveur</em>, qui peuvent être utilisées et comment 
+		celles-ci fonctionnent. Nous développeront principalement le <em>client-serveur</em>, technologie majeure aujourd'hui.</p>
+		
+        <h2 class="TL">Le <em>peer to peer</em> : le modèle originel</h2>
+  
+        <p>
+			Le <em>peer to peer</em> (ou P2P) est un modèle d'échange <b>décentralisée</b> où, dans un réseau, chaque utilisateur (ou "pair") est connecté
+			aux autres; ainsi, chaque terminal est en même temps <b>client et serveur</b>, puisque qu'il store, transmet et exploite les informations.
+			Au départ, les jeux multijoueurs utilisaient exclusivement le modèle P2P pour sa simplicité, mais ses failles ont notamment été
+			découvertes après la création du jeu <em>DOOM</em> par id Software.
+		</p>
+		
+		<img src="../media/doom.jpg" alt="Capture du jeu DOOM" class="image0">
+		
+        <p>
+			Ce jeu de tire en première personne (ou FPS, <em>First Person Shooter</em>), pionnier de son genre, était en effet le premier
+			jeu où les problèmes de <b>latence</b> du P2P ont été remarquées, puisqu'il nécessicitait des inputs (entrées d'utilisateur) très rapides
+			et réactives, ce que le P2P n'était pas toujours capable de supporter.
+		</p>
+		
+		<p>
+			De plus, le P2P n'est pas un modèle extrêmement sécurisé. Les données et informations sont fiables, certes, mais n'importe quel
+			personne qui s'y connait un peu en networking peu facilement pirater un jeu P2P et <b>modifier les données</b> des échanges pour, par exemple,
+			se donner des avantages (c'est-à-dire, tricher).
+		</p>
+
+		<p>
+			Aujourd'hui, peu de jeux vidéo font usage du P2P, et certains ne l'utilisent que dans certaines situations. Le jeu multijoueur
+			<em>Among Us</em> par Innersloth, par exemple, utilise un modèle P2P uniquemennt quand le jeu est joué en <b>local</b>, c'est-à-dire sur un seul
+			et même réseau (en général Wi-Fi ou LAN), car ceci ne nécessite pas les échanges sécurisées d'un serveur.
+		</p>	
+
+		<p><em>(Il n'empêche que le modèle P2P est toujours très utilisé aujourd'hui, notamment dans le milieu du téléchargement de contenu avec les
+		<b>torrents</b>, mais cela n'a aucun rapport avec le fonctionnement des jeux vidéo.)</em></p>
+		<br/>
+		
+        <h2 class="TL">Le client-serveur : le modèle moderne</h2>
+  
+        <p>Aujourd'hui, le P2P n'est qu'utilisé dans certaines situations très spécifiques. Le modèle de loins le plus important, et celui
+		dont nous allons parler sur le reste de ce site, est le modèle <b>client-serveur</b>.</p>
+		
+		<p>
+			Le modèle client-serveur est très simple. Il y a plusieurs terminaux connectés, qui peuvent jouer <b>deux rôles</b> :
+		</p>
+		<ul>
+			<li>Le rôle de <b>client</b> : ce rôle, incarnée par des utilisateurs, fait des <b>requêtes</b>.</li>
+			<li>Le rôle de <b>serveur</b> : ce rôle est incarné par un terminal automatisé et gère, autorise et répond aux requêtes des clients.</li>
+		</ul>
+		
+		<p>
+			Les clients ne sont pas connectés entre eux, mais chacun est connecté au serveur. Ainsi, les échanges suivent ce parcours :
+			<em>client α → serveur → client β</em>.
+		</p>
+		
+        <p>
+			L'avantage de cet environnement est sa <b>fiabilité</b>, sa <b>rapidité</b> et sa <b>sécurité</b>, notamment. L'utilisation d'un serveur permet une bien
+			plus grande vérification des données échangées, ainsi qu'un chiffrage ou une sécurisation des données bien supérieure à celle du P2P.
+		</p>
+		<p>Ce modèle a toutefois des incovénients ; il est par exemple beaucoup plus <b>coûteux</b> que le P2P. De plus, si l'on met en place un seul
+		   serveur et que celui-ci tombe en panne, alors tous les échanges deviennent impossibles et les fonctionnalités multijoueur d'un jeu
+		   disparaisse très vite. Heureusement le coût n'est souvent pas un problème pour les studios de jeux vidéo, et à la place de mettre en place
+		   leur propre serveur, cesdits studios louent en général des serveurs à une entreprise tierse, comme Amazon (avec AWS).</p>
+
+		<br/>
+		
+        <h2 class="">Les protocoles d'échange</h2>
+		<p>
+			Il existe plusieurs protocoles d'échange de données que l'on peut exploiter pour créer des jeux multijoueurs. Chacun est basé sur
+			<b>l'IP</b> que nous connaissons tous, protocole fondamental qui utilise des adresses afin d'envoyer des <b>paquets</b> d'information.
+		</p>
+		
+		<p>Les deux protocoles principaux sont les protocoles UDP et TCP.</p>
+		<ul>
+			<li><b>UDP</b> : C'est un protocole très similaire à l'IP fondamental, qui n'ajoute quasiment aucune couche de sécurité, et qui n'est pas
+			forcément facile à exploiter. Cependant, ce protocole garantit de n'avoir quasiment aucune latence.</li>
+			<li><b>TCP</b> : C'est un protocole très sécurisé, facile à exploiter, notamment utilisé dans d'autres protocoles comme l'HTTPS.
+			Cependant, il fonctionne d'une façon qui peut générer beaucoup de latence.</li>
+		</ul>
+		
+		<p>
+		    La lenteur du TCP est dûe au mode de fonctionnement de ce protocole ;
+			normalement, quand un terminal envoie un paquet d'informations à un autre (par exemple un serveur), le receveur est censé envoyé ce
+			qu'on appelle un ACK (<em>acknowledgement</em> en anglais). Si celui-ci n'arrive pas avant un peu de temps (c'est à dire quelques
+			millisecondes), c'est sans doute qu'il est perdu, et le paquet concerné est renvoyé ; on attend à nouveau un ACK. Le TCP, cependant,
+			ne renvoie jamais d'ACK et attend que le premier paquet soit retrouvé, ce qui est utile en termes de sécurité mais est au détriment de
+			la latence.
+		</p>
+		
+		<p>
+			Ainsi, il faut choisir quel protocol utiliser dans son jeu de façon adéquate. On peut prendre le TCP pour des jeux RTS, des jeux en
+			tour par tour, des jeux assez lents ou d'autres jeux ne nécessitant pas des actions très précises et rapides. On peut même le prendre
+			pour des jeux compétitifs joués uniquement en connection LAN, qui n'auront aucun problème de latence. A l'opposé, le UDP reste la norme
+			pour des jeux rapides et précis (<em>Super Smash Bros.</em>, <em>Dragon Ball FighterZ</em>, <em>DOOM Eternal</em>...) qui nécessitent parfois
+			des inputs au 60<sup>e</sup> de seconde près.
+		</p>
+
+		<footer> <!-- tout doit être relié, sinon erreurs de whitespace -->
+			<a class="foot" target ="_blank" href="https://github.com/cloud-worm/networking">github</a>&nbsp;&nbsp;•&nbsp;&nbsp;<a class="foot" target ="_blank" href="https://cloud-worm.github.io/networking/sources.txt">sources</a>
+		</footer>
+	  </div>
+	
+	<!--<script src="scripts/navbar.js"></script>-->
+  </body>
+</html>
