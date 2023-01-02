@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Networking - Chapitre Deux</title>
+    <link href="index.css" rel="stylesheet" />
+
+
+  </head>
+  <body>
+      <header>
+        <div class="content-width">
+          <h1 id="OMT">Le Networking dans les Jeux Vidéo</h1>
+          <h1 id="MT">Chapitre Deux</h1>
+          <p id="SMT">Techniques d'implémentation</p>
+        </div>
+      </header>
+	  	<div id="navbar">
+			<a class="ni" href="../index.html">accueil</a>
+			<a class="ni" href="../un/index.html">chapitre un</a>
+			<a class="ni active" href="javascript:void(0)">chapitre deux</a>
+			<a class="ni" href="javascript:void(0)">chapitre trois</a>
+			<a class="ni" href="javascript:void(0)">exemples</a>
+		</div><br/>
+
+
+      <div class="content-width">
+        <p></p>
+		
+		<p>Dans ce second chapitre, nous traiterons des bases des différentes techniques qui permettent véritablement de mettre en place un
+		système de jeu multijoueur. On peut considérer que c'est la partie pratique, après la partie théorique des protocoles et des modèles
+		d'échange.</p>
+		
+        <h2 class="">L'état d'un jeu multijoueur</h2>
+  
+        <p>
+			Commençons par expliquer comment fonctionnent 99,9% des jeux multijoueurs qui utilisent avec un modèle client-serveur.
+		</p>
+		
+		<p style="white-space: pre-line">Pour faire simple, les jeux multijoueurs peuvent être résumés avec un mot clé très 
+			simple : l'<b>état</b>. L'état correspond à ce qu'un client spécifique voit sur son écran, à ce qui se passe dans le jeu pour une personne en particulier. 
+		<p>
+		
+		<p>
+			Lorsqu'un client effectue une quelconque action dans un jeu (envoi d'un message dans un chat, input pour le mouvement d'un personnage, etc.),
+			il effectue une ou plusieurs <b>requêtes</b> ; le serveur doit la vérifier et la traiter, et s'il la valide, il doit alors renvoyer
+			au client un nouvel état, par rapport à l'action qui vient d'être effectuée. Cet état est visible par l'utilisateur qui, dès lors, peut
+			à nouveau effectuer une action.
+		</p>
+		
+		<p>
+			Fondamentalement, c'est le fonctionnement même de l'informatique :
+			des actions sont effectuées et le système y répond, en affichant quelque chose de nouveau sur un écran. Cependant, il est particulièrement important
+			de parler des états par rapport à un jeu multijoueur, étant donné qu'un client n'est presque jamais tout seul, mais en contact direct avec
+			d'autres clients. Lorsqu'un état est mis à jour, tous les autres états de chaque client doivent aussi être pris en compte. 
+		</p>
+		<p>
+			Ceci peut donc poser des problèmes de <b>synchronisation</b>, car les horloges internes des processeurs des différents clients ne sont jamais 
+			synchronisées, et les états renvoyés par les serveurs, ainsi, peuvent être décalés de quelques millièmes de secondes entre deux clients,
+			posant des problèmes de communication et de networking, d'autant plus que les machines peuvent avoir des fréquences différentes, 
+			menant à des décalages. Interviennent ici les <b>ticks</b> dont on parlera dans le chapitre trois.
+		</p>
+		
+        <p style="font-style: italic">
+			On parlera des états en plus de détail dans le chapitre 3, où l'on mentionnera par exemple la synchronisation d'états et les ticks.
+		</p>
+		
+
+		<br/>
+		
+        <h2 class="">Le filtrage des états</h2>
+		
+		<p>
+			En vérité, si l'on regarde le code source d'un jeu multijoueur, il n'existe qu'un seul état commun à tous les clients. Ce que j'ai dit
+			plus haut est donc partiellement faux et <em>pourtant</em>, chaque client, dans la plupart des jeux, voit bel et bien un écran différent.
+			De toute évidence, dans le jeu <em>Fortnite</em>, il serait très inconvénient de voir la même chose que son adversaire d'en face.
+		</p>
+		
+		<p>
+			La possibilité d'avoir un seul état, mais pourtant de montrer différentes choses, s'appelle le <b>filtrage</b> d'état. Il est utile
+			pour plusieurs raisons, entre autres :
+		</p>
+		<ul>
+			<li>La possibilité d'avoir différents points de vues pour chaque client</li>
+			<li>La possibilité de cacher certaines informations, telles que la position d'un personnage sur la map d'un jeu, à un client</li>
+			<li>La possibilité de réduire la taille de l'état pour un client, pour réduire les ressources nécessaires à la réception de l'état.
+			On imagine bien que dans un jeu gigantesque comme <em>World of Warcraft</em>, un MMORPG qui ne se joue qu'en ligne et dont la carte
+			fait plus de 200 km<sup>2</sup>, seule une toute petite partie du monde est envoyée au client à chaque envoi d'état ! 
+		</ul>
+
+		<br/>
+		
+        <h2 class="TXL">Sérialisation, endianité, compression et encryption</h2>
+		
+		<p>Avant de commencer cette partie, je vais expliquer le principe d'<b>endianité</b>, notion informatique légèrement complexe, mais tout de
+		même importante voire fondamentale.</p>
+		<p>L'endianité, ou boutisme, c'est l'ordre des octets d'un mot spécifique dans la mémoire d'un ordinateur. Par exemple, prenons le mot
+		<code>07ACF3</code> :</p>
+		<ul>
+			<li>Le <b>gros-boutisme</b> est le premier type d'endianité. Selon lui, les octets du mot vont être rangés dans l'ordre naturel :
+			<code>07</code> → <code>AC</code> → <code>F3</code>.</li>
+			<li>Le <b>petit-boutisme</b> est le second type d'endianité. Selon lui, les octets du mot vont être rangés dans l'ordre inverse :
+			<code>F3</code> → <code>AC</code> → <code>07</code>.</li>
+		</ul>
+		
+		<p>
+			Maintenant, parlons de la <b>sérialisation</b>. Les données d'un jeu vidéo multijoueurs qui doivent être envoyées au client, c'est-à-dire
+			les données de l'état, sont des données parfois longues et complexes. Ce serait très pratique et facile de les envoyer sous forme littérale
+			et inchangée, dans un fichier <em>JSON</em>, <em>XML</em> ou autre langage de notation de données. 
+		</p>
+			
+		<p>
+			Cependant, ce système serait lent, 
+			en termes de transmission d'informations et en terme de décodage (de la part du client). On doit donc <b>sérialiser</b> les données, c'est
+			à dire les mettre sous forme binaire (ou hexadécimale... Enfin, un format efficace) : c'est plus rapide, plus efficace, c'est mieux
+			dans tous les domaines.
+		</p>
+		
+		<p>
+			Mais de toute évidence, il y a un petit problème. Chaque ordinateur peut potentiellement avoir une endianité différente. Le rapport avec 
+			les jeux vidéo multijoueurs, c'est que ces derniers tournent sur plein de clients en même temps. Ces clients peuvent interpréter une
+			donnée de manière totalement différente, c'est très problématique. La sérialisation moderne prend ceci en compte et transforme donc les
+			données d'une façon compréhensible par chaque client, empêchant toutes sortes de problèmes.
+		</p>
+		
+		<p><em>Notons que ceci ne se serait pas passé avec des formats de notations, JSON ou autre.</em>
+		
+		<p>Enfin, deux derniers principes beaucoup plus simples qui, je pense, ne nécessitent pas beaucoup d'explications :</p>
+		<ul>
+			<li><b>La compression : </b>C'est le fait de réduire la taille d'un fichier tout en conservant l'entièreté des données originelles,
+			grâce à un algorithme. Il en existe plusieurs, comme l'encodage de Huffman, mais je ne vais pas les expliquer ici (c'est un site sur
+			le networking, après tout). Il y a aussi la <b>compression delta</b>, technique rapide et utile qui consiste à n'envoyer que la 
+			différence entre un nouvel état et l'état précédent (technique utilisée dans le moteur de <em>Quake 3</em>, originellement).</li>
+			<li><b>L'encryption : </b>Ce n'est pas un site sur la protection des données, donc je vais aller vite. L'encryption, c'est le fait de
+			transformer des données en d'autres grâce à un code ou un algorithme spécial, que seul un terminal est censé pouvoir utiliser.
+			Technique utilisée pour des raisons évidentes : respect de la vie privée, prévention de triche, etc.</li>
+		</ul>
+		
+		<footer> <!-- tout doit être relié, sinon erreurs de whitespace -->
+			<a class="foot" target ="_blank" href="https://github.com/cloud-worm/networking">github</a>&nbsp;&nbsp;•&nbsp;&nbsp;<a class="foot" target ="_blank" href="https://cloud-worm.github.io/networking/sources.txt">sources</a>
+		</footer>
+	  </div>
+	
+	<!--<script src="scripts/navbar.js"></script>-->
+  </body>
+</html>
