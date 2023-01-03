@@ -1,0 +1,133 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Networking - Chapitre Trois</title>
+    <link href="index.css" rel="stylesheet" />
+
+
+  </head>
+  <body>
+      <header>
+        <div class="content-width">
+          <h1 id="OMT">Le Networking dans les Jeux Vidéo</h1>
+          <h1 id="MT">Chapitre Trois</h1>
+          <p id="SMT">Fluidification de
+		  l'expérience utilisateur</p>
+        </div>
+      </header>
+	  	<div id="navbar">
+			<a class="ni" href="../">accueil</a>
+			<a class="ni" href="../un">chapitre un</a>
+			<a class="ni" href="../deux">chapitre deux</a>
+			<a class="ni active" href="javascript:void(0)">chapitre trois</a>
+			<a class="ni" href="../exemples">exemples</a>
+		</div><br/>
+
+
+      <div class="content-width">
+        <p></p>
+		
+		<p>Dans ce dernier chapitre, nous traiterons de certaines techniques qui permettent aux développeurs de rendre leur jeux <em>jouables</em>,
+		et, s'ils sont vraiment très forts, agréables à jouer. On parle alors de fluidification, ou d'amélioration, de l<b>'expérience utilisateur</b>,
+		qu'on appèlera UX pour plus de simplicité, dans ce chapitre.</p>
+		
+        <h2 class="">Encore cette histoire d'états ?!</h2>
+  
+        <p>
+			Eh oui, on doit encore parler des états, mentionnés au chapitre précédent. Mais cette fois, on va ajouter un notion incroyablement
+			importante à notre analyse : <em>le facteur <b>temps</b></em>. En effet, on va parler de la <b>synchronisation d'état</b>.
+		</p>
+		
+		<p>
+			On a mentionné au chapitre précédent que les états devaient être synchronisés entre eux afin de ne pas avoir de problème, mais je n'ai pas
+			expliqué comment. Tradionnellement, le <em>rythme</em> d'un ordinateur est donné par la fréquence d'un processeur, qui sert en quelque sorte
+			de métronome (attention, c'est loin d'être sa seule fonction !). Or, dans un jeu multijoueur, on a justement vu qu'on ne peut pas s'en servir.
+			Il faut donc un "métronome" externe, qui va, dans un jeu multijoueur, être donné par le <b>serveur</b>, sous forme de <b>ticks</b>.
+		<p>
+		
+		<p>
+			Si vous avez déjà joué à <em>Minecraft</em> un peu sérieusement, vous savez sans doute ce qu'est un tick ; c'est une unité de temps, distinte
+			du taux de rafraîchissment (<em>frame rate</em> en anglais). Le calcul de la durée du tick est faite en observant son taux de rafraîchissment, 
+			qui va être utilisé pour savoir quand passe un tick ; ou du moins, c'est la technique la plus simple, il en existe
+			des plus complexes.
+		</p>
+		
+		<p>
+			Dans un jeu multijoueur, la valeur du tick est inconnue et arbitraire, et le calcul de sa valeur est faite par le client et le serveur. Ce qui
+			est important, c'est que le tick est <b>toujours synchronisé</b> parmi tous les clients.
+		</p>
+		
+		<p>
+			Fondamentalement, à quoi sert le tick ? Eh bien, il sert à déterminer quand les requêtes sont envoyées (en effet, même si aucune action
+			n'est commise en apparence, des milliers de requêtes peuvent être faites dans le <em>backend</em>) et quand les états sont renvoyés.
+			Ainsi fonctionne la synchronisation : tous les clients reçoivent leur état en même temps, permettant une cohérence totale.
+		</p>
+		
+		
+		
+
+		<br/>
+		
+        <h2 class="">Mitigation de la latence</h2>
+		
+		<p>
+			Voici une partie intéressante. Il s'agit de techniques de "triche" que le serveur, et plus vastement l'entité en haut de la hiérarchie
+			du développement, à savoir la <em>Game Logic</em>, peut utiliser pour rendre l'UX meilleure. En effet, si les ticks ont un trop grand
+			intervalle, alors la différence de temps entre les états rendra le jeu saccadé et injouable. Voici quelques astuces pour empêcher ceci. 
+		</p>
+		
+		<p>
+			Déjà, parlons d'une technique très importante : la <b>prédiction</b> (<em>client-side prediction</em>, terme originel anglais). Quand
+			on crée un jeu sur l'<em>Unreal Engine</em> de'<em>Epic Games</em>, moteur de jeu vastement utilisé pour les jeux multijoueurs, les 
+			personnages qu'on peut contrôler ont une prédiction, par défaut, c'est-à-dire que quand un mouvement est effectué, ce mouvement sera
+			montré sur l'écran <em>avant</em> la réception de l'état correspondant, en prenant le risque qu'il soit faux. Cependant, si la prédiction
+			est bien mise en place, le mouvement est rarement faux, et la fluidification est largement améliorée.
+		</p>
+		
+		<p>
+			Deux types de prédictions sont l'<b>interpolation</b> et de l'<b>extrapolation</b>.
+		</p>
+		
+		<ul>
+			<li>L'interpolation, c'est l'utilisation des deux derniers états afin de calculer une prédiction ; c'est une technique fonctionnelle, 
+			mais que peut induire de la latence.</li>
+			<li>L'extrapolation, c'est une prédiction basée sur une algorithme utilisant divers paramètres de l'état précédent (notamment
+			des variables régissant le comportement d'une entité) afin de prédire un nouvel état. C'est très rapide, mais la marge d'erreur est
+			assez grande.</li>
+		</ul>
+
+		<br/>
+		
+        <h2 class="">Compensation de latence</h2>
+		
+		<p>Voic la technique de fluidification la plus avancée, la plus complexe à mettre en place mais, sans surprise, la plus utile (dans les
+		jeux rapides et précis).</p>
+
+		<p>
+			Commençons par mentionner que la présence-même d'états dans un jeu vidéo, notamment les jeux rapides avec des réactions immédiates tel
+			<em>DOOM Eternal</em>, <em>Fortnite</em> ou encore <em>Call of Duty: Warzone</em>, peut induire des problèmes. En effet, imaginons
+			qu'un joueur tente un <em>headshot</em> sur un adversaire. Même s'il réussit, le temps que les états soient mis à jour, transmis, etc.,
+			la <em>game logic</em> n'aura peut être pas la possibilité de prendre en compte le <em>headshot</em> comme étant réussi.
+		</p>
+		
+		<p>
+			D'où l'existence de la <b>compensation de la latence</b>. Celle-ci permet au serveur de prendre en compte la latence d'une action quand
+			celle-ci est effectuée, et ainsi à la <em>game logic</em> de valider le tir même si l'état ne l'aurait pas accepté par défaut.
+		</p>
+		
+		<p>
+			On entre alors dans un domaine informatique de niche très technique et inutile pour la plupart des développeurs, les <b>physiques
+			de networking</b>, mais je ne vais pas l'expliquer en détail, afin de ne pas rendre ce chapitre inutilement long.
+		</p>
+		
+		<footer> <!-- tout doit être relié, sinon erreurs de whitespace -->
+			<a class="foot" target ="_blank" href="https://github.com/cloud-worm/networking">github</a>&nbsp;&nbsp;•&nbsp;&nbsp;<a class="foot" target ="_blank" href="https://cloud-worm.github.io/networking/sources.txt">sources</a>
+		</footer>
+	  </div>
+	
+	<!--<script src="scripts/navbar.js"></script>-->
+  </body>
+</html>
