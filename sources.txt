@@ -2,10 +2,13 @@ Sources du site
 
 
 Sitographie:
- - 
- -
+ - https://pvigier.github.io/2019/09/08/beginner-guide-game-networking.html
+ - https://gafferongames.com/post/what_every_programmer_needs_to_know_about_game_networking
+ - http://blog.icat.ac.in/basics-of-game-networking
+ - https://www.gabrielgambetta.com/client-server-game-architecture.html
+ - Mes connaissances
  
 Audiovisuel:
- - 
- - 
- 
+ - Wikimédia
+ - Wikis officiels (Fandom, etc.)
+ - Mes propres captures
