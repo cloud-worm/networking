@@ -33,3 +33,27 @@ Une page du site comporte quatre parties :
 On remarque que la barre de navigation est _sticky_, c'est-à-dire qu'elle est maintenue en haut de l'écran même si l'utilisateur fais défiler le site. Ceci peut être utile si, à la fin d'une des pages, l'utilisateur veut instantanément changer de page du site sans effort. C'est une optimisation de l'expérience utilisateur, qui a en même temps un rôle stylistique important.
 
 ## 2 Programmation du site
+
+### 2.1 Organisation du code
+
+Le code du site peut paraître chaotique, notamment vis-à-vis du nom des classes. En effet, il m'est arrivé de créer une classe ou une ID pour un élément spécifique que j'ai fini par réutiliser autre part, sans me préoccuper d'un changement de nom, pour plus d'efficacité. Ceci a pu mener à des noms qui paraissent incohérents, tels que "TL", "TXL", "SMT" pour désigner différents types de titres.
+
+Mis à part ceci, le code est relativement bien organisé et cohérent. Il y a quelques commentaires personnels dans le CSS.
+
+### 2.2 Hiérarchie des fichiers
+
+La racine du site (dossier `networking/`) contient les dossiers suivants : `media/` pour les ressources audiovisuelles, `un`, `deux`, et `trois` pour les chapitres correspondants, `exemples` pour la page correspondante, et `Fonts` pour la seule police du site, ce qui est un peu vain.
+
+Il y a un fichier `index.html` dans la racine et dans chaque dossier de page, afin de créer un site internet dont les pages ne s'appellent pas `deux.html` mais simplement `/deux`, ce qui me semble plus professionnel.
+
+La racine et chaque dossier de page contient son propre fichier CSS, même s'il est pratiquement identique entre les chapitres et la page des exemples.
+
+### 2.3 Diverses techniques
+
+Pour le dégradé des titres, j'utilise du _clipping_ de texte, qui affiche le fond d'écran d'un élément sur le texte à la place du fond-même. Il y a également des classes pour les titres qui me permettent d'adapter la taille du dégradé à la taille du titre (faisable en JavaScript, mais bon...).
+
+La barre de navigation _sticky_ fonctionne grâce à du CSS, tout simplement (cf. les fichiers sources CSS).
+
+## Contenu
+
+Le contenu textuel est totalement original. 
